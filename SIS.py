@@ -4,12 +4,14 @@ import customtkinter
 
 
 
+
 # Create the main window
 root = customtkinter.CTk()
 root.title("Student Information System")
 root.configure(bg="#2a2d30")
 root.resizable(False, False)
 customtkinter.set_appearance_mode("Dark")
+
 
 
 
@@ -21,6 +23,7 @@ class Student:
         self.course = course
         self.year_level = year_level
         self.gpa = gpa
+
 
 # Function to retrieve data saved when exec is exited
 def retrieve_data():
@@ -36,6 +39,21 @@ def retrieve_data():
                 list_data.append(f.strip())
     except:
         pass
+
+
+
+
+
+# Function to retrieve data from "courses.txt" and populate the dropdown menu
+def courses(course_entry):
+    try:
+        with open("courses.txt", "r", encoding="utf-8") as file:
+            courses = [course.strip() for course in file]
+            course_entry['values'] = courses
+    except FileNotFoundError:
+        print("courses.txt file not found.")
+
+
 
 # Function to add student to the list
 def add():
@@ -65,6 +83,7 @@ def add():
     student_list.insert("", tk.END, values=student_info)
     list_data.append("     ".join(student_info))
 
+
 # Function to "Edit" or simply replace students :)
 def edit_selected():
     selected_item = student_list.selection()
@@ -84,11 +103,13 @@ def edit_selected():
         gpa_entry.insert(0, values[4])
         delete_selected()
 
+
 # Function to delete ALL students on the list
 def delete():
     global list_data
     student_list.delete(*student_list.get_children())
     list_data = []
+
 
 # Function to delete selected student from the list
 def delete_selected():
@@ -101,6 +122,17 @@ def delete_selected():
         student_list.delete(selected_item)
         list_data.pop(index)
 
+
+# Function to open courses program using subprocess
+def open_courses():
+                    #put the file location here
+    program_path = "C:/Users/roelb/PycharmProjects/pythonProject2/courses.py"
+    try:
+        subprocess.Popen(["python", program_path])
+    except FileNotFoundError:
+        print("Program file not found.")
+
+
 # Function to save the data to a text file and exit
 def quit():
     global root
@@ -108,6 +140,7 @@ def quit():
         for d in list_data:
             file.write(d + "\n")
     root.destroy()
+
 
 
 
@@ -126,11 +159,12 @@ id_entry = customtkinter.CTkEntry(root)
 id_entry.grid(row=1, column=1, padx=10, pady=10)
 
 
-course_label = customtkinter.CTkLabel(root, text="Course:")
+course_label = customtkinter.CTkLabel(root, text="Courses")
 course_label.grid(row=2, column=0, padx=10, pady=10)
 
-course_entry = customtkinter.CTkEntry(root)
+course_entry = ttk.Combobox(root)
 course_entry.grid(row=2, column=1, padx=10, pady=10)
+courses(course_entry)
 
 
 year_label = customtkinter.CTkLabel(root, text="Year Level:")
@@ -145,6 +179,7 @@ gpa_label.grid(row=4, column=0, padx=10, pady=10)
 
 gpa_entry = customtkinter.CTkEntry(root)
 gpa_entry.grid(row=4, column=1, padx=10, pady=10)
+
 
 
 
@@ -164,9 +199,14 @@ button_delete.grid(row=5, column=0, padx=10, pady=10)
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Student", command=delete_selected)
 button_delete_selected.grid(row=5, column=2, padx=10, pady=10)
 
+# Create a button to open courses application
+button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_courses)
+button_open.grid(row=9, column=0, padx=10, pady=10)
+
 # Create a button to Save and Quit
 bquit = customtkinter.CTkButton(root, text="Save and Quit", command=quit)
-bquit.grid(row=9, column=1, padx=10, pady=10)
+bquit.grid(row=9, column=2, padx=10, pady=10)
+
 
 
 
