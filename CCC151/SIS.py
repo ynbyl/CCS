@@ -82,6 +82,12 @@ def add():
 
     student_list.insert("", tk.END, values=student_info)
     list_data.append("     ".join(student_info))
+    
+    name_entry.delete(0, 'end')
+    id_entry.delete(0, 'end')
+    course_entry.delete(0, 'end')
+    year_entry.delete(0, 'end')
+    gpa_entry.delete(0, 'end')
 
 
 # Function to "Edit" or simply replace students :)
@@ -91,15 +97,10 @@ def edit_selected():
     if selected_item:
         # Get the selected student's data
         values = student_list.item(selected_item)['values']
-        name_entry.delete(0, 'end')
         name_entry.insert(0, values[0])
-        id_entry.delete(0, 'end')
         id_entry.insert(0, values[1])
-        course_entry.delete(0, 'end')
         course_entry.insert(0, values[2])
-        year_entry.delete(0, 'end')
         year_entry.insert(0, values[3])
-        gpa_entry.delete(0, 'end')
         gpa_entry.insert(0, values[4])
         delete_selected()
 
@@ -121,6 +122,17 @@ def delete_selected():
         index = int(selected_item[0][1:]) - 1
         student_list.delete(selected_item)
         list_data.pop(index)
+        
+#def delete_selected():
+#    global list_data
+
+#    selected_item = student_list.selection()
+
+#    if selected_item:
+#        selected_index = int(selected_item[0][1:]) - 1
+#        student_list.delete(selected_item)
+
+#        del list_data[selected_index]
 
 
 # Function to open courses program using subprocess
@@ -146,66 +158,66 @@ def quit():
 
 # Student Information Form
 name_label = customtkinter.CTkLabel(root, text="Name:")
-name_label.grid(row=0, column=0, padx=10, pady=10)
+name_label.grid(row=0, column=0, padx=20, pady=20)
 
 name_entry = customtkinter.CTkEntry(root)
-name_entry.grid(row=0, column=1, padx=10, pady=10)
+name_entry.grid(row=0, column=1, padx=20, pady=20)
 
 
 id_label = customtkinter.CTkLabel(root, text="ID:")
-id_label.grid(row=1, column=0, padx=10, pady=10)
+id_label.grid(row=1, column=0, padx=20, pady=20)
 
 id_entry = customtkinter.CTkEntry(root)
-id_entry.grid(row=1, column=1, padx=10, pady=10)
+id_entry.grid(row=1, column=1, padx=20, pady=20)
 
 
 course_label = customtkinter.CTkLabel(root, text="Courses")
-course_label.grid(row=2, column=0, padx=10, pady=10)
+course_label.grid(row=2, column=0, padx=20, pady=20)
 
-course_entry = ttk.Combobox(root)
-course_entry.grid(row=2, column=1, padx=10, pady=10)
+course_entry = ttk.Combobox(root, state="readonly")
+course_entry.grid(row=2, column=1, padx=20, pady=20)
 courses(course_entry)
 
 
 year_label = customtkinter.CTkLabel(root, text="Year Level:")
-year_label.grid(row=3, column=0, padx=10, pady=10)
+year_label.grid(row=3, column=0, padx=20, pady=20)
 
 year_entry = customtkinter.CTkEntry(root)
-year_entry.grid(row=3, column=1, padx=10, pady=10)
+year_entry.grid(row=3, column=1, padx=20, pady=20)
 
 
 gpa_label = customtkinter.CTkLabel(root, text="GPA:")
-gpa_label.grid(row=4, column=0, padx=10, pady=10)
+gpa_label.grid(row=4, column=0, padx=20, pady=20)
 
 gpa_entry = customtkinter.CTkEntry(root)
-gpa_entry.grid(row=4, column=1, padx=10, pady=10)
+gpa_entry.grid(row=4, column=1, padx=20, pady=20)
 
 
 
 
 # Create a button to add a new student
 button = customtkinter.CTkButton(root, text="Add Student", command=add)
-button.grid(row=2, column=2, padx=10, pady=10)
+button.grid(row=2, column=2, padx=20, pady=20)
 
 # Create a button to edit selected
 button_edit = customtkinter.CTkButton(root, text="Edit Selected Student", command=edit_selected)
-button_edit.grid(row=5, column=1, padx=10, pady=10)
+button_edit.grid(row=5, column=1, padx=20, pady=20)
 
 # Create a button to deletes ALL inputs
 button_delete = customtkinter.CTkButton(root, text="Remove All Students", command=delete)
-button_delete.grid(row=5, column=0, padx=10, pady=10)
+button_delete.grid(row=5, column=0, padx=20, pady=20)
 
 # Create a button to delete SELECTED input
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Student", command=delete_selected)
-button_delete_selected.grid(row=5, column=2, padx=10, pady=10)
+button_delete_selected.grid(row=5, column=2, padx=20, pady=20)
 
 # Create a button to open courses application
-button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_courses)
-button_open.grid(row=9, column=0, padx=10, pady=10)
+button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_program)
+button_open.grid(row=9, column=0, padx=20, pady=20)
 
 # Create a button to Save and Quit
 bquit = customtkinter.CTkButton(root, text="Save and Quit", command=quit)
-bquit.grid(row=9, column=2, padx=10, pady=10)
+bquit.grid(row=9, column=2, padx=20, pady=20)
 
 
 
