@@ -16,9 +16,6 @@ customtkinter.set_appearance_mode("Dark")
 
 
 
-
-
-
 # class to store and represent data
 class Student:
     def __init__(self, name, id_num, course, year_level, gpa):
@@ -56,7 +53,6 @@ def courses(course_entry):
         print("courses.txt file not found.")
 
 
-
 # Function to add student to the list
 def add():
     global list_data
@@ -69,7 +65,6 @@ def add():
     year_level = year_entry.get()
     gpa = gpa_entry.get()
 
-    # check for empty entries and replace them with N/A
     if first_name == "":
         first_name = "-"
     if middle_initial == "":
@@ -77,13 +72,13 @@ def add():
     if last_name == "":
         last_name = "-"
     if course == "":
-        course = "N/A"
+        course = "-"
     if id_num == "":
-        id_num = "N/A"
+        id_num = "-"
     if year_level == "":
-        year_level = "N/A"
+        year_level = "-"
     if gpa == "":
-        gpa = "N/A"
+        gpa = "-"
 
     name = f"{first_name} {middle_initial} {last_name}"
 
@@ -93,15 +88,12 @@ def add():
     student_list.insert("", tk.END, values=student_info)
     list_data.append("     ".join(student_info))
 
-    # Clear the entry fields
     first_name_entry.delete(0, 'end')
     middle_initial_entry.delete(0, 'end')
     last_name_entry.delete(0, 'end')
     id_entry.delete(0, 'end')
     course_entry.delete(0, 'end')
-    year_entry.delete(0, 'end')
     gpa_entry.delete(0, 'end')
-
 
 
 # Function to "Edit" or simply replace students :)
@@ -139,7 +131,6 @@ def delete_selected():
         del list_data[selected_index]
 
 
-
 # Function to open courses program using subprocess
 def open_program():
     program_path = "C:/Users/roelb/PycharmProjects/pythonProject2/courses.py"
@@ -149,6 +140,7 @@ def open_program():
         print("Program file not found.")
     root.destroy()
 
+    
 # Function to save the data to a text file and exit
 def quit():
     global root
@@ -173,6 +165,7 @@ def search():
 
 
 
+                
 # Student Information Form
 first_name_label = customtkinter.CTkLabel(root, text="First Name:")
 first_name_label.grid(row=0, column=0, padx=20, pady=20)
@@ -218,47 +211,46 @@ search_entry.grid(row=4, column=1, padx=20, pady=20)
 
 
 
-# Create a button to perform the search
+# Button Search
 search_button = customtkinter.CTkButton(root, text="Search", command=search)
 search_button.grid(row=4, column=2, padx=20, pady=20)
 
-# Create a button to add a new student
+# Button Add
 large_font = customtkinter.CTkFont(size=30)
 
 button = customtkinter.CTkButton(root, text="Add \n \n Student", command=add, height=100, font=large_font)
 button.grid(row=0, column=4, padx=20, pady=20, rowspan=3)
 
-# Create a button to edit selected
+# Button Edit 
 button_edit = customtkinter.CTkButton(root, text="Edit Selected Student", command=edit_selected)
 button_edit.grid(row=4, column=3, padx=20, pady=20)
 
-# Create a button to delete SELECTED input
+# Button Remove
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Student", command=delete_selected)
 button_delete_selected.grid(row=4, column=4, padx=20, pady=20)
 
-# Create a button to delete ALL inputs
+# Button Clear
 button_delete = customtkinter.CTkButton(root, text="Remove All Students", command=delete)
 button_delete.grid(row=9, column=0, padx=20, pady=20)
 
 
-# Create a button to open courses application
+# Button Course Window
 button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_program)
 button_open.grid(row=9, column=4, padx=20, pady=20)
 
-# Create a button to Save and Quit
+# Button SnQ
 bquit = customtkinter.CTkButton(root, text="Save and Quit", command=quit)
 bquit.grid(row=9, column=2, padx=20, pady=20)
 
 
 
 
-# Create a style
+# # Create a TreeView to display the student information
 style = ttk.Style()
 style.theme_use("default")
 style.configure("mystyle.Treeview.Heading", font=('Calibri', 12,'bold'), background="#1f6ba4", foreground="#dce4ee", sticky="nsew")
 style.configure("mystyle.Treeview", background="#252524", highlightthickness=0, bd=0, font=('Calibri', 11), fieldbackground="#252524", foreground="#ffb3b3")
 
-# Create a TreeView to display the student information
 student_list = ttk.Treeview(root, columns=("name", "id_num", "course", "year_level", "gpa"), show="headings", style="mystyle.Treeview")
 student_list.grid(row=8, column=0, columnspan=5, padx=20, pady=20)
 student_list.heading("name", text="Name")
@@ -273,6 +265,7 @@ student_list.column("id_num", width=160, anchor=tk.CENTER)
 student_list.column("course", width=200, anchor=tk.CENTER)
 student_list.column("year_level", width=180, anchor=tk.CENTER)
 student_list.column("gpa", width=100, anchor=tk.CENTER)
+
 
 
 
