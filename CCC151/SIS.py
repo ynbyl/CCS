@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import customtkinter
-
+import subprocess
 
 
 
@@ -33,15 +33,13 @@ def retrieve_data():
 
     try:
         with open("save.txt", "r", encoding="utf-8") as file:
-            for f in file:
-                data = f.strip().split("     ")
+            for std in file:
+                data = std.strip().split("     ")
                 student_list.insert("", tk.END, values=(data[0], data[1], data[2], data[3], data[4]))
-                list_data.append(f.strip())
+                list_data.append(std.strip())
+
     except:
         pass
-
-
-
 
 
 # Function to retrieve data from "courses.txt" and populate the dropdown menu
@@ -82,7 +80,8 @@ def add():
 
     student_list.insert("", tk.END, values=student_info)
     list_data.append("     ".join(student_info))
-    
+
+    # Clear the entry fields
     name_entry.delete(0, 'end')
     id_entry.delete(0, 'end')
     course_entry.delete(0, 'end')
@@ -119,31 +118,21 @@ def delete_selected():
     selected_item = student_list.selection()
 
     if selected_item:
-        index = int(selected_item[0][1:]) - 1
+        selected_index = int(selected_item[0][1:]) - 1
         student_list.delete(selected_item)
-        list_data.pop(index)
-        
-#def delete_selected():
-#    global list_data
 
-#    selected_item = student_list.selection()
+        del list_data[selected_index]
 
-#    if selected_item:
-#        selected_index = int(selected_item[0][1:]) - 1
-#        student_list.delete(selected_item)
-
-#        del list_data[selected_index]
 
 
 # Function to open courses program using subprocess
-def open_courses():
-                    #put the file location here
+def open_program():
     program_path = "C:/Users/roelb/PycharmProjects/pythonProject2/courses.py"
     try:
         subprocess.Popen(["python", program_path])
     except FileNotFoundError:
         print("Program file not found.")
-
+    root.destroy()
 
 # Function to save the data to a text file and exit
 def quit():
@@ -230,7 +219,7 @@ style.configure("mystyle.Treeview", background="#252524", highlightthickness=0, 
 
 # Create a TreeView to display the student information
 student_list = ttk.Treeview(root, columns=("name", "id_num", "course", "year_level", "gpa"), show="headings", style="mystyle.Treeview")
-student_list.grid(row=7, column=0, columnspan=3, padx=10, pady=10)
+student_list.grid(row=7, column=0, columnspan=3, padx=20, pady=20)
 student_list.heading("name", text="Name")
 student_list.heading("id_num", text="ID")
 student_list.heading("course", text="Course")
