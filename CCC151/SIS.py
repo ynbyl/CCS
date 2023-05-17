@@ -233,11 +233,11 @@ button_delete.grid(row=9, column=0, padx=20, pady=20)
 
 # Button Course Window
 button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_program)
-button_open.grid(row=9, column=4, padx=20, pady=20)
+button_open.grid(row=9, column=2, padx=20, pady=20)
 
 # Button SnQ
 bquit = customtkinter.CTkButton(root, text="Save and Quit", command=quit)
-bquit.grid(row=9, column=2, padx=20, pady=20)
+bquit.grid(row=9, column=4, padx=20, pady=20)
 
 
 
