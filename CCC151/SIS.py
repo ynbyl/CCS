@@ -6,6 +6,7 @@ from tkinter import font
 
 
 
+
 # Create the main window
 root = customtkinter.CTk()
 root.title("Student Information System")
@@ -140,7 +141,7 @@ def open_program():
         print("Program file not found.")
     root.destroy()
 
-    
+
 # Function to save the data to a text file and exit
 def quit():
     global root
@@ -163,9 +164,9 @@ def search():
                 student_list.focus(item)
                 student_list.see(item)
 
-
-
                 
+                
+
 # Student Information Form
 first_name_label = customtkinter.CTkLabel(root, text="First Name:")
 first_name_label.grid(row=0, column=0, padx=20, pady=20)
@@ -204,16 +205,13 @@ gpa_entry = customtkinter.CTkEntry(root)
 gpa_entry.grid(row=2, column=3, padx=20, pady=20)
 
 search_label = customtkinter.CTkLabel(root, text="Search Student")
-search_label.grid(row=4, column=0, padx=20, pady=20)
+search_label.grid(row=3, column=2, padx=20, pady=20)
 search_entry = customtkinter.CTkEntry(root)
-search_entry.grid(row=4, column=1, padx=20, pady=20)
-
-
-
+search_entry.grid(row=3, column=3, padx=20, pady=20)
 
 # Button Search
 search_button = customtkinter.CTkButton(root, text="Search", command=search)
-search_button.grid(row=4, column=2, padx=20, pady=20)
+search_button.grid(row=3, column=4, padx=20, pady=20)
 
 # Button Add
 large_font = customtkinter.CTkFont(size=30)
@@ -221,18 +219,17 @@ large_font = customtkinter.CTkFont(size=30)
 button = customtkinter.CTkButton(root, text="Add \n \n Student", command=add, height=100, font=large_font)
 button.grid(row=0, column=4, padx=20, pady=20, rowspan=3)
 
-# Button Edit 
+# Button Edit
 button_edit = customtkinter.CTkButton(root, text="Edit Selected Student", command=edit_selected)
 button_edit.grid(row=4, column=3, padx=20, pady=20)
 
 # Button Remove
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Student", command=delete_selected)
-button_delete_selected.grid(row=4, column=4, padx=20, pady=20)
+button_delete_selected.grid(row=4, column=1, padx=20, pady=20)
 
 # Button Clear
 button_delete = customtkinter.CTkButton(root, text="Remove All Students", command=delete)
 button_delete.grid(row=9, column=0, padx=20, pady=20)
-
 
 # Button Course Window
 button_open = customtkinter.CTkButton(root, text="Open Course Selection", command=open_program)
@@ -248,7 +245,7 @@ bquit.grid(row=9, column=2, padx=20, pady=20)
 # # Create a TreeView to display the student information
 style = ttk.Style()
 style.theme_use("default")
-style.configure("mystyle.Treeview.Heading", font=('Calibri', 12,'bold'), background="#1f6ba4", foreground="#dce4ee", sticky="nsew")
+style.configure("mystyle.Treeview.Heading", font=('Calibri', 12, 'bold'), background="#1f6ba4", foreground="#dce4ee", sticky="nsew")
 style.configure("mystyle.Treeview", background="#252524", highlightthickness=0, bd=0, font=('Calibri', 11), fieldbackground="#252524", foreground="#ffb3b3")
 
 student_list = ttk.Treeview(root, columns=("name", "id_num", "course", "year_level", "gpa"), show="headings", style="mystyle.Treeview")
