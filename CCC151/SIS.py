@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import customtkinter
 import subprocess
-from tkinter import font
+
 
 
 
@@ -17,7 +17,7 @@ customtkinter.set_appearance_mode("Dark")
 
 
 
-# class to store and represent data
+# Class to store and represent student data
 class Student:
     def __init__(self, name, id_num, course, year_level, gpa):
         self.name = name
@@ -31,21 +31,27 @@ class Student:
 def retrieve_data():
     global list_data
 
+    # Initializes the variable
     list_data = []
-
     try:
+        # Open the save.txt file for reading
         with open("save.txt", "r", encoding="utf-8") as file:
             for std in file:
+                # Splits data
                 data = std.strip().split("     ")
-                student_list.insert("", tk.END, values=(data[0], data[1], data[2], data[3], data[4]))
-                list_data.append(std.strip())
 
+                # Insert the student data to student_list
+                student_list.insert("", tk.END, values=(data[0], data[1], data[2], data[3], data[4]))
+
+                # Add the student information to the list_data list
+                list_data.append(std.strip())
     except:
-        pass
+        pass # Does nothing :D
 
 
 # Function to retrieve data from "courses.txt" and populate the dropdown menu
 def courses(course_entry):
+    # Read course values for combobox
     try:
         with open("courses.txt", "r", encoding="utf-8") as file:
             courses = [course.strip() for course in file]
@@ -58,6 +64,7 @@ def courses(course_entry):
 def add():
     global list_data
 
+    # Take values
     first_name = first_name_entry.get()
     middle_initial = middle_initial_entry.get()
     last_name = last_name_entry.get()
@@ -66,6 +73,7 @@ def add():
     year_level = year_entry.get()
     gpa = gpa_entry.get()
 
+    # For when entries are empty, replace with -
     if first_name == "":
         first_name = "-"
     if middle_initial == "":
@@ -81,14 +89,18 @@ def add():
     if gpa == "":
         gpa = "-"
 
+    # To combine the 3 entries into the name column in treeview
     name = f"{first_name} {middle_initial} {last_name}"
 
+    # Insert student data into the treeview
     student = Student(name, id_num, course, year_level, gpa)
     student_info = (student.name, student.id_num, student.course, student.year_level, student.gpa)
 
+    # Add data to list_data
     student_list.insert("", tk.END, values=student_info)
     list_data.append("     ".join(student_info))
 
+    # Clear entry
     first_name_entry.delete(0, 'end')
     middle_initial_entry.delete(0, 'end')
     last_name_entry.delete(0, 'end')
@@ -102,33 +114,41 @@ def edit_selected():
     selected_item = student_list.selection()
 
     if selected_item:
-        # Get the selected student's data
+        # Get selected student's data
         values = student_list.item(selected_item)['values']
-        name_entry.insert(0, values[0])
+
+        # For name
+        name = values[0].split(" ")
+
+        # Copy to entry fields
+        first_name_entry.insert(0, name[0])
+        middle_initial_entry.insert(0, name[1])
+        last_name_entry.insert(0, name[2])
         id_entry.insert(0, values[1])
-        course_entry.insert(0, values[2])
-        year_entry.insert(0, values[3])
         gpa_entry.insert(0, values[4])
+
+        # Delete student from list
         delete_selected()
 
 
 # Function to delete ALL students on the list
 def delete():
     global list_data
+
     student_list.delete(*student_list.get_children())
     list_data = []
 
 
 # Function to delete selected student from the list
 def delete_selected():
-    global list_data
-
     selected_item = student_list.selection()
 
     if selected_item:
-        selected_index = int(selected_item[0][1:]) - 1
+        # Get the selected item index
+        selected_index = student_list.index(selected_item)
+        # Delete the selected item from the student_list
         student_list.delete(selected_item)
-
+        # Update the list_data by removing the selected student
         del list_data[selected_index]
 
 
@@ -139,33 +159,46 @@ def open_program():
         subprocess.Popen(["python", program_path])
     except FileNotFoundError:
         print("Program file not found.")
+
     root.destroy()
 
 
 # Function to save the data to a text file and exit
 def quit():
     global root
+
     with open("save.txt", "w", encoding="utf-8") as file:
         for d in list_data:
             file.write(d + "\n")
+
     root.destroy()
 
 
 # Function to search for students by any column
 def search():
+    # Get the search query search entry 
     search_query = search_entry.get().strip().lower()
+    # Searches if there is a filled entry
     if search_query:
+        # Take all data
         items = student_list.get_children("")
+        # Remove accidental selections
         student_list.selection_remove(*student_list.get_children())
+        
+        # Search iterates and checks if the 'entry' matches any value in the list
         for item in items:
+            # Get the values associated with the item
             values = student_list.item(item)["values"]
+            # Check if the search query matches any value in the values list
             if any(search_query in str(value).lower() for value in values):
+                # Add the item to the selection
                 student_list.selection_add(item)
+                # Focuses then highlights
                 student_list.focus(item)
                 student_list.see(item)
 
-                
-                
+
+
 
 # Student Information Form
 first_name_label = customtkinter.CTkLabel(root, text="First Name:")
@@ -196,7 +229,7 @@ id_entry.grid(row=0, column=3, padx=20, pady=20)
 
 year_label = customtkinter.CTkLabel(root, text="Year Level:")
 year_label.grid(row=1, column=2, padx=20, pady=20)
-year_entry = customtkinter.CTkComboBox(root, values=["Highschool", "1st Year", "2nd Year", "3rd Year", "4th Year", "Alumni"])
+year_entry = customtkinter.CTkComboBox(root, values=["Highschool", "1st Year", "2nd Year", "3rd Year", "4th Year", "Alumni"], state="readonly")
 year_entry.grid(row=1, column=3, padx=20, pady=20)
 
 gpa_label = customtkinter.CTkLabel(root, text="GPA:")
@@ -208,6 +241,9 @@ search_label = customtkinter.CTkLabel(root, text="Search Student")
 search_label.grid(row=3, column=2, padx=20, pady=20)
 search_entry = customtkinter.CTkEntry(root)
 search_entry.grid(row=3, column=3, padx=20, pady=20)
+
+
+
 
 # Button Search
 search_button = customtkinter.CTkButton(root, text="Search", command=search)
