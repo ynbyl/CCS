@@ -1,6 +1,6 @@
 import tkinter as tk
 import customtkinter
-
+import subprocess
 
 
 # Create the main window
@@ -18,7 +18,7 @@ class Student:
         self.course = course
 
 # Function to retrieve data saved when executable was exited
-def retrieve_data():
+def load_courses():
     global list_data
     list_data = []
     try:
@@ -53,6 +53,8 @@ def delete():
     global list_data
     listbox.delete(0, tk.END)
     list_data = []
+
+
 # Function to delete the selected course from the list
 def delete_selected():
     global list_data
@@ -72,6 +74,12 @@ def quit():
         for d in list_data:
             file.write(d + "\n")
     root.destroy()
+
+    program_path = "C:/Users/roelb/PycharmProjects/pythonProject2/SIS.py"
+    try:
+        subprocess.Popen(["python", program_path])
+    except FileNotFoundError:
+        print("Program file not found.")
 
 
 
@@ -105,8 +113,8 @@ listbox.grid(row=7, columnspan=5, padx=10, pady=20)
 listbox.configure(bg="#252524", fg="white")
 
 # Create a button to Save and Quit
-bquit = customtkinter.CTkButton(root, text="Save and Quit", command=quit)
+bquit = customtkinter.CTkButton(root, text="Return to Student List", command=quit)
 bquit.grid(row=9, column=1, padx=10, pady=10)
 
-retrieve_data()
+load_courses()
 root.mainloop()
