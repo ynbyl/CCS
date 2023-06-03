@@ -14,7 +14,7 @@ root.resizable(False, False)
 customtkinter.set_appearance_mode("Dark")
 button_update_visible = False  # Global variable for 'Update'
 selected_index = None  # Declare a global variable to store the index of the selected item
-
+large_font = customtkinter.CTkFont(size=30)
 
 
 
@@ -110,7 +110,7 @@ def add():
     gpa_entry.delete(0, 'end')
 
 
-# Function to "Edit" or simply replace students :)
+# Function to "Edit" or simply replace students :) // Updated into a better version
 def edit_selected():
     global selected_index, button_update_visible
 
@@ -133,25 +133,13 @@ def edit_selected():
         # Store the index of the selected item
         selected_index = student_list.index(selected_item)
 
-        # Show the "Show Button"
+        # Show the "Update" button and hide the "Add Student" button
         if not button_update_visible:
-            button_update.grid(row=4, column=2, padx=20, pady=20)
+            button_update.grid(row=3, column=4, padx=20, pady=20)
+            button.grid_remove()  # Hide the "Add Student" button
             button_update_visible = True
-    else:
-        # Clear the entry fields
-        first_name_entry.delete(0, 'end')
-        middle_initial_entry.delete(0, 'end')
-        last_name_entry.delete(0, 'end')
-        id_entry.delete(0, 'end')
-        gpa_entry.delete(0, 'end')
 
-        # Hide the "Show Button"
-        if button_update_visible:
-            button_update.grid_remove()
-            button_update_visible = False
-
-
-# Rpeplace
+# Insert student
 def update_student():
     global selected_index, button_update_visible
 
@@ -180,10 +168,14 @@ def update_student():
         # Reset the selected_index variable
         selected_index = None
 
-        # Hide the "Show Button"
+        # Hide the "Update" button and show the "Add Student" button
         if button_update_visible:
             button_update.grid_remove()
+            button.grid(row=0, column=4, padx=20, pady=20, rowspan=3)  # Show the "Add Student" button
             button_update_visible = False
+
+
+
 
 
 # Function to delete ALL students on the list
@@ -293,35 +285,33 @@ gpa_entry = customtkinter.CTkEntry(root)
 gpa_entry.grid(row=2, column=3, padx=20, pady=20)
 
 search_label = customtkinter.CTkLabel(root, text="Search Student")
-search_label.grid(row=3, column=2, padx=20, pady=20)
+search_label.grid(row=4, column=1, padx=20, pady=20)
 search_entry = customtkinter.CTkEntry(root)
-search_entry.grid(row=3, column=3, padx=20, pady=20)
+search_entry.grid(row=4, column=2, padx=20, pady=20)
 
 
 
 
 # Button Show
-button_update = customtkinter.CTkButton(root, text="Update Edited Student", command=update_student)
-button_update.grid(row=4, column=2, padx=20, pady=20)
+button_update = customtkinter.CTkButton(root, text="Update \n Student", command=update_student, height=100, font=large_font)
+button_update.grid(row=3, column=4, padx=20, pady=20, rowspan=2)
 button_update.grid_remove()  # Hide the button initially
 
 # Button Search
 search_button = customtkinter.CTkButton(root, text="Search", command=search)
-search_button.grid(row=3, column=4, padx=20, pady=20)
+search_button.grid(row=4, column=3, padx=20, pady=20)
 
 # Button Add
-large_font = customtkinter.CTkFont(size=30)
-
 button = customtkinter.CTkButton(root, text="Add \n \n Student", command=add, height=100, font=large_font)
 button.grid(row=0, column=4, padx=20, pady=20, rowspan=3)
 
 # Button Edit
 button_edit = customtkinter.CTkButton(root, text="Edit Selected Student", command=edit_selected)
-button_edit.grid(row=4, column=3, padx=20, pady=20)
+button_edit.grid(row=3, column=3, padx=20, pady=20)
 
 # Button Remove
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Student", command=delete_selected)
-button_delete_selected.grid(row=4, column=1, padx=20, pady=20)
+button_delete_selected.grid(row=3, column=2, padx=20, pady=20)
 
 # Button Clear
 button_delete = customtkinter.CTkButton(root, text="Remove All Students", command=delete)
