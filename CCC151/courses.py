@@ -5,7 +5,7 @@ import subprocess
 
 # Create the main window
 root = customtkinter.CTk()
-root.title("Student Information System")
+root.title("Courses Information System")
 root.configure(bg="#2a2d30")
 root.resizable(False, False)
 customtkinter.set_appearance_mode("Dark")
@@ -14,8 +14,10 @@ customtkinter.set_default_color_theme("blue")
 
 # A class to represent a student and store their information
 class Student:
-    def __init__(self, course):
+    def __init__(self, course, course_code):
         self.course = course
+        self.course_code = course_code
+
 
 # Function to retrieve data saved when executable was exited
 def load_courses():
@@ -30,23 +32,34 @@ def load_courses():
         pass
 
 # Function to add course to the list
-def add():
+def add(event=None):
     global list_data
     course = course_entry.get()
+    course_code = course_code_entry.get()  # Retrieve the course code
 
-    student = Student(course)
-    student_info = f"{student.course}"
+    student = Student(course, course_code)  # Pass the course code as an argument
+    student_info = f"{student.course} | {student.course_code}"  # Include course code in the string
     listbox.insert(tk.END, student_info)
     list_data.append(student_info)
+
+    # Clear the entry fields
+    course_entry.delete(0, 'end')
+    course_code_entry.delete(0, 'end')
+
 
 # Function to "Edit" or simply replace course
 def edit_selected():
     selected_index = listbox.curselection()
     if selected_index:
         selected_text = listbox.get(selected_index[0])
+        # Extract the course and course code from the selected text
+        course, _, course_code = selected_text.partition(" | ")
         course_entry.delete(0, tk.END)
-        course_entry.insert(0, selected_text)
+        course_entry.insert(0, course)
+        course_code_entry.delete(0, tk.END)
+        course_code_entry.insert(0, course_code)
         delete_selected()
+
 
 # Function to delete ALL of the course lists
 def delete():
@@ -86,26 +99,28 @@ def quit():
 # Student Information Form
 course_label = customtkinter.CTkLabel(root, text="Course:")
 course_label.grid(row=0, column=0, padx=10, pady=10)
+course_code_label = customtkinter.CTkLabel(root, text="Course Code:")
+course_code_label.grid(row=1, column=0, padx=10, pady=10)
 
 course_entry = customtkinter.CTkEntry(root)
 course_entry.grid(row=0, column=1, padx=10, pady=10)
-
+course_code_entry = customtkinter.CTkEntry(root)
+course_code_entry.grid(row=1, column=1, padx=10, pady=10)
 
 # Create a button to add a new student
-button = customtkinter.CTkButton(root, text="Add Course", command=add)
-button.grid(row=0, column=2, padx=10, pady=10)
+root.bind('<Return>', add)
 
 # Create a button to edit selected
 button_edit = customtkinter.CTkButton(root, text="Edit Course", command=edit_selected)
-button_edit.grid(row=1, column=2, padx=10, pady=10)
+button_edit.grid(row=2, column=2, padx=10, pady=10)
 
 # Create a button to deletes ALL inputs
 button_delete = customtkinter.CTkButton(root, text="Remove All Courses", command=delete)
-button_delete.grid(row=1, column=0, padx=10, pady=10)
+button_delete.grid(row=2, column=0, padx=10, pady=10)
 
 # Create a button to delete SELECTED input
 button_delete_selected = customtkinter.CTkButton(root, text="Remove Selected Course", command=delete_selected)
-button_delete_selected.grid(row=1, column=1, padx=10, pady=10)
+button_delete_selected.grid(row=2, column=1, padx=10, pady=10)
 
 # Create the listbox
 listbox = tk.Listbox(root)
