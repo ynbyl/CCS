@@ -124,9 +124,7 @@ def update_student():
 # Function to search for students by any column
 def search():
     search_text = search_entry.get()
-
-    # Clear previous search if gikan search
-    student_list.tag_configure("highlight", background="yellow")
+    student_list.selection_remove(student_list.selection())
 
     # Iterate over the items in the Treeview
     for item in student_list.get_children():
@@ -139,11 +137,9 @@ def search():
                 found = True
                 break
 
-        # Highlights
+        # Select the item
         if found:
-            student_list.item(item, tags=("highlight",))
-        else:
-            student_list.item(item, tags=())
+            student_list.selection_add(item)
 
     # Reset the search entry
     search_entry.delete(0, tk.END)
