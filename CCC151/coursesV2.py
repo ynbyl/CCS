@@ -1,5 +1,5 @@
-import tkinter as tk
 import sqlite3
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import subprocess
@@ -10,7 +10,7 @@ import subprocess
 # Create the Main Window
 root = Tk()
 root.title("Courses Information Management V2.0")
-root.geometry("600x400")
+root.geometry("600x410")
 root.resizable(False, False)
 course_list = ttk.Treeview(root)
 
@@ -116,20 +116,46 @@ def open_program():
 
     root.destroy()
 
+# Function to SEARCH
+def search():
+    search_text = search_entry.get()
+
+    # Remove previous selections
+    course_list.selection_remove(course_list.selection())
+
+    # Iterate over the items in the Treeview
+    for item in course_list.get_children():
+        values = course_list.item(item)["values"]
+        found = False
+
+        # Check if the search text matches any value in the current item
+        for value in values:
+            if search_text.lower() in value.lower():
+                found = True
+                break
+
+        # Select the item
+        if found:
+            course_list.selection_add(item)
+
+    # Reset the search entry
+    search_entry.delete(0, tk.END)
 
 # Buttons
 add_button = tk.Button(root, text="Add Course", command=add_course)
 add_button.grid(row=2, column=1, padx=5, pady=5)
 
 delete_button = tk.Button(root, text="Delete Course", command=delete_course)
-delete_button.grid(row=4, column=0, padx=5, pady=5)
+delete_button.grid(row=5, column=0, padx=5, pady=5)
 
 update_button = tk.Button(root, text="Update", command=update_course)
 update_button.grid(row=2, column=0, padx=5, pady=5)
 
 ssis_button = tk.Button(root, text="Students", command=open_program)
-ssis_button.grid(row=4, column=1, padx=5, pady=5)
+ssis_button.grid(row=5, column=1, padx=5, pady=5)
 
+search_button = tk.Button(root, text="Search", command=search)
+search_button.grid(row=3, column=1, padx=5, pady=5)
 
 # Course Information Form
 coursecode_label = tk.Label(root, text="Course Code:")
@@ -142,13 +168,14 @@ coursename_label.grid(row=1, column=0, padx=5, pady=5)
 coursename_entry = tk.Entry(root)
 coursename_entry.grid(row=1, column=1, padx=5, pady=5)
 
-
+search_entry = tk.Entry(root)
+search_entry.grid(row=3, column=0, padx=5, pady=5)
 
 
 # Treeview
 course_list = ttk.Treeview(root)
 course_list["columns"] = ("coursecode", "coursename")
-course_list.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+course_list.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
 course_list.heading("#0", text="ID")
 course_list.heading("coursecode", text="Course Code")
