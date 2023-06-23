@@ -1,9 +1,12 @@
 import sqlite3
 import subprocess
 import tkinter as tk
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+
+
 
 # Create the Main Window
 root = Tk()
@@ -27,8 +30,9 @@ courses = cursor.fetchall()
 course_codes = [course[0] for course in courses]
 
 
+
 # Function to clear and refresh the student list
-def rsl():
+def rtv():
     # Clear the student list
     student_list.delete(*student_list.get_children())
 
@@ -61,7 +65,7 @@ def add_student():
     gender_entry.set("")
     course_entry.set("")
 
-    rsl()
+    rtv()
 
 
 # Function to DELETE selected students
@@ -89,9 +93,7 @@ def delete_student():
             except tk.TclError:
                 pass
 
-        rsl()
-
-
+        rtv()
 
 
 # Function to UPDATE a student
@@ -142,7 +144,7 @@ def update_student():
             year_entry.set("")
             gender_entry.set("")
             course_entry.set("")
-            rsl()
+            rtv()
 
             # Destroy the save button after clicking it
             save_button.destroy()
@@ -182,6 +184,7 @@ def search():
     # Reset the search entry
     search_entry.delete(0, tk.END)
 
+
 # Function to OPEN courses
 def open_program():
     program_path = "D:/Downloads/SSIS/courses(2).py"
@@ -191,6 +194,8 @@ def open_program():
         print("Program file not found.")
 
     root.destroy()
+
+
 
 # Buttons
 add_button = tk.Button(root, text="Add Student", command=add_student, bg="#abdbe3")
@@ -207,6 +212,8 @@ search_button.grid(row=6, column=2, padx=5, pady=5)
 
 course_button = tk.Button(root, text="Courses", command=open_program, bg="#eab676")
 course_button.grid(row=0, column=2, padx=5, pady=5)
+
+
 
 # Student Information Form
 name_label = tk.Label(root, text="Full Name:")
@@ -240,6 +247,8 @@ search_label.grid(row=6, column=0, padx=5, pady=5)
 search_entry = tk.Entry(root)
 search_entry.grid(row=6, column=1, padx=5, pady=5)
 
+
+
 # Treeview
 student_list = ttk.Treeview(root)
 student_list["columns"] = ("id", "name", "year", "gender", "course")
@@ -259,5 +268,7 @@ student_list.column("year", width=100, anchor=tk.CENTER)
 student_list.column("gender", width=80, anchor=tk.CENTER)
 student_list.column("course", width=100, anchor=tk.CENTER)
 
-rsl()
+
+
+rtv()
 root.mainloop()
