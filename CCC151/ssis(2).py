@@ -75,7 +75,7 @@ def delete_student():
     if not selected_items:
         return
 
-    confirm = messagebox.askyesno("Hold up!", "Are you absolutely sure you want to confirm deletion?")
+    confirm = messagebox.askyesno("Hold up!", "Are you absolutely sure you want to delete selected student(s)?")
 
     if confirm:
         # Iterate over selected items
@@ -123,7 +123,7 @@ def update_student():
     # Function to save the changes and update the student's information
     def save_changes():
         # Ask for confirmation using a messagebox
-        confirm = messagebox.askyesno("Confirm Changes", "Are you absolutely sure you want to proceed?")
+        confirm = messagebox.askyesno("Confirm Changes", "Are you sure you want to proceed changes?")
 
         if confirm:
             # Get the modified values from the entry fields and dropdown
