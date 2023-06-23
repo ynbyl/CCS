@@ -79,7 +79,7 @@ def delete_course():
     item_id = course_list.item(selected_item)["text"]
 
     # Ask for confirmation using a dialogue prompt
-    confirm = messagebox.askyesno("Confirmation", "Are you sure you want to delete this course?")
+    confirm = messagebox.askyesno("Hold up.", "Are you absolutely sure you want to delete this course?")
 
     if confirm:
         # Delete the course from the database using ID
@@ -171,7 +171,7 @@ add_button.grid(row=2, column=1, padx=5, pady=5)
 delete_button = tk.Button(root, text="Delete Course", command=delete_course, bg="#F77070")
 delete_button.grid(row=5, column=0, padx=5, pady=5)
 
-update_button = tk.Button(root, text="Update", command=update_course, bg="#C18AF7")
+update_button = tk.Button(root, text="Update", command=update_course)
 update_button.grid(row=2, column=0, padx=5, pady=5)
 
 ssis_button = tk.Button(root, text="Students", command=open_program, bg="#eab676")
