@@ -92,9 +92,6 @@ def delete_course():
         rtv()
 
 
-
-
-
 # Function to update a course
 def update_course():
     # Get the selected item from the tree view
@@ -166,6 +163,7 @@ def search():
     search_entry.delete(0, tk.END)
 
 
+
 # Buttons
 add_button = tk.Button(root, text="Add Course", command=add_course, bg="#abdbe3")
 add_button.grid(row=2, column=1, padx=5, pady=5)
@@ -173,7 +171,7 @@ add_button.grid(row=2, column=1, padx=5, pady=5)
 delete_button = tk.Button(root, text="Delete Course", command=delete_course, bg="#F77070")
 delete_button.grid(row=5, column=0, padx=5, pady=5)
 
-update_button = tk.Button(root, text="Update", command=update_course)
+update_button = tk.Button(root, text="Update", command=update_course, bg="#C18AF7")
 update_button.grid(row=2, column=0, padx=5, pady=5)
 
 ssis_button = tk.Button(root, text="Students", command=open_program, bg="#eab676")
